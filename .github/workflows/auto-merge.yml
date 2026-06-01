@@ -1,0 +1,24 @@
+name: Auto Merge PRs
+
+on:
+  # The script runs when a pull request is opened, updated, or when tests are running
+  pull_request:
+    types: [opened, synchronize, reopened]
+  check_suite:
+    types: [completed]
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    # Run only if the PR is open (not closed or merged previously)
+    if: github.event.pull_request.state == 'open' || github.event.check_suite.conclusion == 'success'
+    steps:
+      - name: Automatically Merge PR
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          # Merge method: merge, squash, or rebase
+          MERGE_METHOD: 'merge'
+          # The bot will approve any PR that has no conflicts
+          MERGE_LABELS: ''
+          MERGE_FILTER_AUTHOR: ''
