@@ -22,4 +22,3 @@ jobs:
           # The bot will approve any PR that has no conflicts
           MERGE_LABELS: ''
           MERGE_FILTER_AUTHOR: ''
-          
